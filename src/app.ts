@@ -1,21 +1,20 @@
-import express, { Response, Request, Application } from 'express'
-import cors from 'cors'
+import express, { Response, Request, Application } from 'express';
+import cors from 'cors';
+import { productRoutes } from './app/modules/product.route';
 
-const app: Application = express()
+const app: Application = express();
 
 //parser
-app.use(express.json())
-app.use(cors())
+app.use(express.json());
+app.use(cors());
 
 // router
-app.use('/api/products', (req, res) => {
-  res.send('Router perfect work')
-})
+app.use('/api/products', productRoutes);
 
 // check routing
 app.get('/', (req: Request, res: Response) => {
   res.json({
     message: 'Hello Developer!!',
-  })
-})
-export default app
+  });
+});
+export default app;
