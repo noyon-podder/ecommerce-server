@@ -21,6 +21,28 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 
+// get all order
+const getAllOrders = async (req: Request, res: Response) => {
+  try {
+    const emailTerm = req.query.email;
+    const result = await OrderService.getAllOrders(emailTerm as string);
+
+    //response send to client
+    res.status(200).json({
+      success: true,
+      message: 'All product retrieve  successfully',
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong!',
+      error,
+    });
+  }
+};
+
 export const OrderController = {
   createOrder,
+  getAllOrders,
 };
