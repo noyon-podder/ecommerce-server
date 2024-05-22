@@ -2,7 +2,7 @@ import { Product } from './product.model';
 import { TProduct } from './product.type';
 
 const productCreateIntoDB = async (payload: TProduct) => {
-  const result = await Product.create(payload);
+  const result = await Product.create({ ...payload, isDeleted: false });
 
   return result;
 };
@@ -34,9 +34,17 @@ const specificProductUpdate = async (
   return result;
 };
 
+// specific product delete
+const specificProductDelete = async (productId: string) => {
+  const result = await Product.findByIdAndDelete(productId);
+
+  return result;
+};
+
 export const ProductService = {
   productCreateIntoDB,
   getAllProduct,
   getSingleProductIntoDB,
   specificProductUpdate,
+  specificProductDelete,
 };

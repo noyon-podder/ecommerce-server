@@ -45,8 +45,19 @@ const productSchema = new Schema<TProduct>(
       type: InventorySchema,
       required: true,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );
+
+// mongoose pre middleware
+productSchema.pre('find', async function (next) {
+  this.find({ isDeleted: { $ne: true } });
+
+  next();
+});
 
 export const Product = mongoose.model<TProduct>('Product', productSchema);

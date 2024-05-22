@@ -16,20 +16,12 @@ const createProduct = async (req: Request, res: Response) => {
       message: 'Product Create Successfully!!!',
       data: result,
     });
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      res.status(500).json({
-        success: false,
-        message: 'Product create something wrong',
-        error: error,
-      });
-    } else {
-      res.status(500).json({
-        success: false,
-        message: 'Product Create unknown error occurred',
-        error: error,
-      });
-    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong!',
+      error,
+    });
   }
 };
 
@@ -44,20 +36,12 @@ const getAllProduct = async (req: Request, res: Response) => {
       message: 'All product retrieve  successfully',
       data: result,
     });
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      res.status(500).json({
-        success: false,
-        message: 'Something went wrong ',
-        error: error,
-      });
-    } else {
-      res.status(500).json({
-        success: false,
-        message: 'something unknown error occurred',
-        error: error,
-      });
-    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong!',
+      error,
+    });
   }
 };
 
@@ -73,20 +57,12 @@ const getSingleProduct = async (req: Request, res: Response) => {
       message: 'Specific product retrieve successfully!!',
       data: result,
     });
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      res.status(500).json({
-        success: false,
-        message: 'Something went wrong ',
-        error: error,
-      });
-    } else {
-      res.status(500).json({
-        success: false,
-        message: 'something unknown error occurred',
-        error: error,
-      });
-    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong!',
+      error,
+    });
   }
 };
 
@@ -112,25 +88,48 @@ const specificProductUpdate = async (req: Request, res: Response) => {
       message: 'Specific product Update successfully!!',
       data: product,
     });
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      res.status(500).json({
-        success: false,
-        message: 'Something went wrong ',
-        error: error,
-      });
-    } else {
-      res.status(500).json({
-        success: false,
-        message: 'something unknown error occurred',
-        error: error,
-      });
-    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong!',
+      error,
+    });
   }
 };
+
+// delete a user
+const specificProductDelete = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+
+    const deletedProduct =
+      await ProductService.specificProductDelete(productId);
+
+    if (!deletedProduct) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Product not found!' });
+    }
+
+    //response send to client
+    res.status(200).json({
+      success: true,
+      message: 'Product deleted successfully!',
+      data: null,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong!',
+      error,
+    });
+  }
+};
+
 export const ProductController = {
   createProduct,
   getAllProduct,
   getSingleProduct,
   specificProductUpdate,
+  specificProductDelete,
 };
