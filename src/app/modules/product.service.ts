@@ -15,9 +15,21 @@ const getAllProduct = async () => {
 };
 
 // get specific product into db
-
 const getSingleProductIntoDB = async (productId: string) => {
   const result = await Product.findById(productId);
+
+  return result;
+};
+
+// specific product update successfully
+const specificProductUpdate = async (
+  productId: string,
+  updatedData: TProduct,
+) => {
+  const result = await Product.findByIdAndUpdate(productId, updatedData, {
+    new: true,
+    runValidators: true,
+  });
 
   return result;
 };
@@ -26,4 +38,5 @@ export const ProductService = {
   productCreateIntoDB,
   getAllProduct,
   getSingleProductIntoDB,
+  specificProductUpdate,
 };
