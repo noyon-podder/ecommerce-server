@@ -8,10 +8,23 @@ const productCreateIntoDB = async (payload: TProduct) => {
 };
 
 // get all product into db
-const getAllProduct = async () => {
-  const result = await Product.find();
+const getAllProduct = async (searchTerm: string | undefined) => {
+  let product;
+  if (searchTerm) {
+    const regex = new RegExp(searchTerm, 'i');
 
-  return result;
+    product = await Product.find({
+      $or: [
+        { name: regex },
+        { description: regex },
+        { category: regex },
+        { tags: { $in: [regex] } },
+      ],
+    });
+  } else {
+    product = await Product.find();
+  }
+  return product;
 };
 
 // get specific product into db
