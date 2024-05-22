@@ -33,6 +33,65 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
+// get all product
+const getAllProduct = async (req: Request, res: Response) => {
+  try {
+    const result = await ProductService.getAllProduct();
+
+    //response send to client
+    res.status(200).json({
+      success: true,
+      message: 'All product retrieve  successfully',
+      data: result,
+    });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        success: false,
+        message: 'Something went wrong ',
+        error: error,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: 'something unknown error occurred',
+        error: error,
+      });
+    }
+  }
+};
+
+// get single product
+const getSingleProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const result = await ProductService.getSingleProductIntoDB(productId);
+
+    //response send to client
+    res.status(200).json({
+      success: true,
+      message: 'Specific product retrieve successfully!!',
+      data: result,
+    });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        success: false,
+        message: 'Something went wrong ',
+        error: error,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: 'something unknown error occurred',
+        error: error,
+      });
+    }
+  }
+};
+
 export const ProductController = {
   createProduct,
+  getAllProduct,
+  getSingleProduct,
 };
