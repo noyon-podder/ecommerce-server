@@ -22,6 +22,5 @@ export const ProductSchema = z
     tags: z.array(z.string()),
     variants: z.array(VariantSchema),
     inventory: InventorySchema,
-    isDeleted: z.boolean().default(false),
   })
   .nonstrict();
